@@ -27,15 +27,16 @@ pub fn main() !void {
     var min: usize = std.math.maxInt(usize);
     var max: usize = 0;
     var average: usize = 0;
-    var total = try Instant.now();
+    const total = try Instant.now();
 
     //Declare and begin iterations
     std.debug.print("Zig performing {} operations over {} iterations.\n", .{ opers, iters });
     for (0..iters) |iteration| {
         //start timer
-        var start = try Instant.now();
+        const start = try Instant.now();
         //initialize psuedo random seed
-        var rng = rngenerator.init(@intCast(u64, iters + opers) + iteration);
+        const tmp: u64 = @intCast(iters + opers);
+        var rng = rngenerator.init(tmp + iteration);
 
         //initialize collection
         var accounts = std.ArrayList(Account).init(allocator);
@@ -44,10 +45,10 @@ pub fn main() !void {
         //fill collection
         for (0..opers) |i|
             try accounts.append(.{
-                .account_id = @intCast(i32, i),
-                .current_bill = @intCast(i32, rng.next() % 1000),
-                .balance = @intCast(i32, rng.next() % 100),
-                .paid_amount = @intCast(i32, rng.next() % 1000),
+                .account_id = @intCast(i),
+                .current_bill = @intCast(rng.next() % 1000),
+                .balance = @intCast(rng.next() % 100),
+                .paid_amount = @intCast(rng.next() % 1000),
             });
 
         //process accounts for collection
@@ -56,18 +57,21 @@ pub fn main() !void {
                 const payment: i32 = if (account.balance < account.current_bill) account.balance else account.current_bill;
                 account.paid_amount += payment;
                 account.paid_amount >>= 2;
-                account.current_bill += account.current_bill - payment + @intCast(i32, rng.next() % 100);
+                const bill: i32 = @intCast(rng.next() % 100);
+                account.current_bill += account.current_bill - payment + bill;
                 account.current_bill >>= 2;
-                account.balance += @intCast(i32, rng.next() % 100);
+                account.balance += @intCast(rng.next() % 100);
             };
 
         //grab time
-        var diff = (try Instant.now()).since(start);
+        const diff = (try Instant.now()).since(start);
         if (diff < min) min = diff;
         if (diff > max) max = diff;
         average += diff;
     }
     //print result
-    std.debug.print("Done! after {d:.5} seconds\n", .{@intToFloat(f64, (try Instant.now()).since(total)) / 1e9});
+    const diff_total: f64 = @floatFromInt((try Instant.now()).since(total));
+    const diff_seconds: f64 = diff_total / 1e9;
+    std.debug.print("Done! after {d:.5} seconds\n", .{diff_seconds});
     std.debug.print("\tmax: {}, min: {}, avg: {} nanoseconds\n\n", .{ max, min, average / iters });
 }

@@ -1,8 +1,9 @@
 default: programc programcpp programzig programrust programjava
 
-CC = clang
-CXX = clang++
+CC = gcc
+CXX = g++
 CFLAGS = -O2 -lm
+CPP_FLAGS= -stdlib=libc++
 
 RR = cargo build
 RFLAGS = --release
@@ -14,7 +15,7 @@ programc:
 	${CC} ./c/main.c ${CFLAGS} -o programc
 
 programcpp:
-	${CXX} ./cpp/main.cpp ${CFLAGS} -o programcpp
+	${CXX} ./cpp/main.cpp ${CPP_FLAGS} ${CFLAGS} -o programcpp
 
 programrust:
 	cd ./rust && ${RR} ${RFLAGS} && cd .. && mv ./rust/target/release/programrust ./programrust
@@ -28,4 +29,4 @@ programjava:
 	jar cfe jmain.jar jmain jmain.class;\
 	jar uf jmain.jar ./*.class;\
 	cd ..;\
-	mv ./java/jmain.jar ./programjava
+	mv ./java/jmain.jar ./programjava.jar
