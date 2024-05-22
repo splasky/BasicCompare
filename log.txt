@@ -1,0 +1,32 @@
+C O2 performing 100 operations over 100 iterations.
+Done! after 0.037923 seconds
+	max: 527000, min: 337000, avg: 378170 nanoseconds
+
+C++ performing 100 operations over 100 iterations.
+Done! after 0.0367362 seconds
+	max: 457984, min: 330069, avg: 361776 nanoseconds
+
+Rust performing 100 operations over 100 iterations.
+Done! after 34.659129ms
+	max: 780253, min: 249977, avg: 346210 nanoseconds
+
+Java performing 100 operations over 100 iterations.
+Done! after 0.072532525 seconds
+	max: 5430119, min: 142604, avg: 534199 nanoseconds
+
+Zig performing 100 operations over 100 iterations.
+Done! after 0.02152 seconds
+        max: 428669, min: 104482, avg: 198294 nanoseconds
+
+C (gcc) O3 performing 100 operations over 100 iterations.
+Done! after 0.043510 seconds
+	max: 840000, min: 328000, avg: 433580 nanoseconds
+
+C (clang) performing 100 operations over 100 iterations.
+Done! after 0.038403 seconds
+	max: 946000, min: 322000, avg: 382509 nanoseconds
+
+C++ (clang) performing 100 operations over 100 iterations.
+Done! after 0.0416892 seconds
+	max: 853238, min: 321207, avg: 415811 nanoseconds
+
